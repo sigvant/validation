@@ -7,6 +7,10 @@ const password2 = document.getElementById('password2');
 form.addEventListener('submit', (e) => {
     e.preventDefault();
 
+    checkSubmit();
+});
+
+form.addEventListener('input', (e) => {
     checkInputs();
 });
 
@@ -21,12 +25,16 @@ function checkInputs() {
         //show error
         //add error class
         setErrorFor(username, 'Username cannot be blank');
-    // } else if (){
-    
+    } else if (!isValidUsername(usernameValue)) {
+        console.log('test');
+        setErrorFor(username, 'Needs between 6 and 10 characters');        
     } else {
-        // add success class
         setSuccessFor(username);
     }
+
+    // else if (isValidUsername(usernameValue)){
+    //     setErrorFor(username, 'Needs between 6 and 10 characters');
+    // }
 
     if(emailValue === '') {
         //show error
@@ -78,4 +86,19 @@ function setSuccessFor(input) {
 
 function isEmail(email) {
     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+}
+
+function isValidUsername(username) {
+    const myRegex = /[\w]{6,10}/g;
+    return myRegex.test(username);
+}
+
+function checkSubmit() {
+    if (username.parentElement.classList.contains('success') &&
+        email.parentElement.classList.contains('success') &&
+        password.parentElement.classList.contains('success') &&
+        password2.parentElement.classList.contains('success')) {
+            alert('Thanks for logging in!')
+            location.reload();
+        }
 }
